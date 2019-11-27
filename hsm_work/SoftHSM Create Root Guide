@@ -24,4 +24,4 @@ It is logging into the HSM using the `--pin` (for testing at the moment, will re
 sudo openssl req -out $_homedir"/"$_rootname".crt" -new -nodes -engine pkcs11 -keyform engine -key slot_748671277-label_root_key -config $_config_file -days 9125 -extensions root_cert -reqexts v3_req -x509 -subj "/C=GB/ST=Essex/L=Ipswich/O=BT PLC/OU=test/CN=jake test root"
 ```
 
-This command is 
+This command is creating a certificate by connecting to the HSM using the engine pkcs11 and using the private key from the slot `748671277` with the label `root_key` using the config specified in the script, setting the days to 9125 (7 years), using the extension block `root_cert` from the config, use another extension block called `v3_req` from the config, make an x509 certificate, and set the subject parameters.
