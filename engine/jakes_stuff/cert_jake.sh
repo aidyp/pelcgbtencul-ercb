@@ -1,7 +1,7 @@
 #!/bin/bash
 echo jake
 echo OFF
-_homedir=/home/leslielamport/Documents/Github/openssl-pkcs11/hsm_work
+_homedir=/home/leslielamport/development/openssl-softhsm/openssl-pkcs11/engine/jakes_stuff
 _config_file=$_homedir"/openssl.cnf"
 _module=/usr/local/lib/softhsm/libsofthsm2.so
 _test=test
