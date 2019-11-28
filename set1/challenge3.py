@@ -1,4 +1,4 @@
-#Cryptopals 3-1
+#Cryptopals 1-3
 
 
 #Sample frequency scoring
@@ -14,7 +14,8 @@ def hex_to_bytes(string):
 def score(guess):
 	#We want to score a guess. What's the best way to do it?
 	
-	#Naive mechanism
+	#Naive mechanism, but works for now. Just give guess a point if it has
+	#an english character
 	
 	target = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	
@@ -40,6 +41,14 @@ def sample():
 		guess_score = score(guess)
 		options.append((guess, guess_score))
 	
-	return sorted(options, key=lambda x: x[1], reverse=True)
+	sorted_guesses = sorted(options, key=lambda x: x[1], reverse=True)
+	high_score = sorted_guesses[0][1]
 	
-print(sample())
+	#Get all the guesses with the high score
+	candidates = [guess[0] for guess in sorted_guesses if guess[1] == high_score]
+	return(candidates)
+	
+	
+possible_answers = sample()
+for answer in possible_answers:
+	print(answer)
