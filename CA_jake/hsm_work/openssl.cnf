@@ -32,7 +32,7 @@ x509_extensions                 = usr_cert
 distinguished_name              = stunnel_dn
 
 [ v3_req ]
-subjectAltName = @alt_names
+#subjectAltName = @alt_names
 
 [ stunnel_extensions ]
 nsCertType                      = server
@@ -82,9 +82,9 @@ keyUsage = critical,keyCertSign,cRLSign
 subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid:always
 
-[ alt_names ]
-DNS.1 = www.jaketeststunnelfdqn.com
-DNS.2 = jaketeststunnelfdqn.com
+#[ alt_names ]
+#DNS.1 = www.jaketeststunnelfdqn.com
+#DNS.2 = jaketeststunnelfdqn.com
 
 # To create a certificate for more than one name uncomment:
 # 1.commonName                  = DNS alias of your server

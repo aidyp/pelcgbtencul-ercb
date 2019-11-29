@@ -1,7 +1,7 @@
 #!/bin/bash
 echo jake
 echo OFF
-_homedir=/home/leslielamport/Documents/Github/openssl-pkcs11/CA_jake/hsm_work/
+_homedir=/home/leslielamport/Documents/Github/openssl-pkcs11/CA_jake/hsm_work
 _config_file=$_homedir"/openssl.cnf"
 _module=/usr/local/lib/softhsm/libsofthsm2.so
 _test=test
@@ -18,7 +18,7 @@ chain() {
 	#openssl genrsa -out $_homedir"/"$_rootname".key" 4096
 		
 	#Change key generation to be on-board HSM	
-	pkcs11-tool --module $_module --login --pin 12345 --keypairgen --key-type rsa:4096 --label "root_key" --id $_keyid --usage-sign
+	pkcs11-tool --module $_module --login --pin 12345 --keypairgen --key-type rsa:4096 --label "root_key" --id $_keyid --usage-sign --slot 0x2c9fd12d
 	
 	
 	
@@ -27,6 +27,8 @@ chain() {
 	openssl req -out $_homedir"/"$_rootname".crt" -new -nodes -engine pkcs11 -keyform engine -key slot_748671277-label_root_key -config $_config_file -days 9125 -extensions root_cert -reqexts v3_req -x509 -subj "/C=GB/ST=Essex/L=Ipswich/O=BT PLC/OU=test/CN=jake test root"
 	openssl x509 -text -noout -in $_homedir"/"$_rootname".crt"
 	echo $_rootname
+	
+	OPENSSL_CONF=$_config_file openssl x509 -req -in $_homedir"/ca_request.csr" -extensions inter_cert -days 1825 -engine pkcs11 -CAkeyform engine -CA $_homedir"/"$_rootname".crt" -CAkey slot_748671277-label_root_key -CAcreateserial -out $_homedir"/inter.crt"
 	
 	: '
 	read -p "Please enter the Issuing CA Key name: " _issuingname
@@ -47,7 +49,7 @@ chain() {
 	'
 	echo "Certificates Generated"
 	read -n 1 -s -r -p "Press any key to continue..."
-	clear
+	#clear
 	menu
 	
 }
