@@ -1,7 +1,0 @@
-
-
-module="/usr/local/lib/softhsm/libsofthsm2.so"
-
-sudo pkcs11-tool --module $module --login -p 23456 --keypairgen --key-type rsa:2048 --label "aldrinrootkey" --id 1007 --usage-sign
-
-sudo openssl req -new -x509 -days 1825 -subj '/CN=subCA/C=GB/ST=Suffolk/LN=Ipswich/O=OnlineShop/OU=groceries/' -sha256 -config config-file -engine pkcs11 -keyform engine -key slot_2042159416-label_aldrinrootkey_key -out aldrinrootcert.pem
