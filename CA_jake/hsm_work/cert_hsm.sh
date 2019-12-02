@@ -6,6 +6,7 @@ _config_file=$_homedir"/openssl.cnf"
 _module=/usr/local/lib/softhsm/libsofthsm2.so
 _test=test
 _chainfile=chainstunnel.pem
+_rootnametemp=root.crt
 
 chain() {
 
@@ -27,8 +28,6 @@ chain() {
 	openssl req -out $_homedir"/"$_rootname".crt" -new -nodes -engine pkcs11 -keyform engine -key slot_748671277-label_root_key -config $_config_file -days 9125 -extensions root_cert -reqexts v3_req -x509 -subj "/C=GB/ST=Essex/L=Ipswich/O=BT PLC/OU=test/CN=jake test root"
 	openssl x509 -text -noout -in $_homedir"/"$_rootname".crt"
 	echo $_rootname
-	
-	OPENSSL_CONF=$_config_file openssl x509 -req -in $_homedir"/ca_request.csr" -extensions inter_cert -days 1825 -engine pkcs11 -CAkeyform engine -CA $_homedir"/"$_rootname".crt" -CAkey slot_748671277-label_root_key -CAcreateserial -out $_homedir"/inter.crt"
 	
 	: '
 	read -p "Please enter the Issuing CA Key name: " _issuingname
@@ -52,6 +51,10 @@ chain() {
 	#clear
 	menu
 	
+}
+
+inter() {
+	OPENSSL_CONF=$_config_file openssl x509 -req -in $_homedir"/ca_request_aidan.csr" -extensions inter_cert -days 1825 -engine pkcs11 -CAkeyform engine -CA $_homedir"/root.crt" -CAkey slot_748671277-label_root_key -CAcreateserial -out $_homedir"/aidaninter.crt"
 }
 
 package() {
@@ -106,20 +109,23 @@ end() {
 menu() {
 	echo $_number
 	echo "------------------------MENU------------------------"
-	echo "1: Generate Chain"
-	echo "2: Package Certs"
-	echo "3: Delete Certs"
-	echo "4: Quit"
+	echo "1: Generate Root"
+	echo "2: Generate Inter"
+	echo "3: Package Certs"
+	echo "4: Delete Certs"
+	echo "5: Quit"
 	echo "----------------------------------------------------"
 	read -p "Please enter an input: " _number
 	if [[ "$_number" -eq "1" ]]; then
 	chain
 	elif [[ "$_number" -eq "2" ]]; then
-	package
+	inter
 	elif [[ "$_number" -eq "3" ]]; then
+	package
+	elif [[ "$_number" -eq "4" ]]; then
 	:
 	delete
-	elif [[ "$_number" -eq "4" ]]; then
+	elif [[ "$_number" -eq "5" ]]; then
 	:
 	end
 	else
