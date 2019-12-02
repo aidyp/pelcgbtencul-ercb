@@ -39,7 +39,7 @@ def score_hex(hex_line):
 	
 	
 	# Templates,  pre-processing
-	alphabet = "abcdefghijklmnopqrstuvwxyz"
+	alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
 	options = []	
 	b_string = hex_to_bytes(hex_line)
 	
@@ -56,7 +56,7 @@ def score_hex(hex_line):
 	high_score = sorted_guesses[0][1]
 	
 	#Get all the guesses with the high score
-	candidates = [guess[0] for guess in sorted_guesses if guess[1] == high_score]
+	candidates = [(guess[0], guess[1]) for guess in sorted_guesses if guess[1] == high_score]
 	return(candidates)
 
 def write_candidates(candidate_set):
@@ -65,7 +65,7 @@ def write_candidates(candidate_set):
 			for item in candidate_set:
 				for candidate in item:
 					try:
-						f.write('%s\n' % bytes(candidate).encode())
+						f.write('%s, %s\n' % ((bytes(candidate[0]).encode()), candidate[1]))
 					except UnicodeDecodeError:
 						continue
 		
