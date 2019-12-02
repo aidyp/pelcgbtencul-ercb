@@ -1,0 +1,12 @@
+● nginx.service - A high performance web server and a reverse proxy server
+   Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+   Active: failed (Result: exit-code) since Mon 2019-12-02 13:43:34 GMT; 1min 2s ago
+     Docs: man:nginx(8)
+  Process: 2845 ExecStartPre=/usr/sbin/nginx -t -q -g daemon on; master_process on; (code=exited, status=1/FAILURE)
+
+Dec 02 13:43:34 paxos systemd[1]: Starting A high performance web server and a reverse proxy server...
+Dec 02 13:43:34 paxos nginx[2845]: nginx: [emerg] SSL_CTX_use_PrivateKey_file("/etc/nginx/sites-available/nginxpublickey2.key") failed (SSL: error:0909006C:PEM routines:get_name:no start line:Expecting: ANY PRIVATE KEY error:140B0009:SSL routines:SSL_CTX_use_PrivateKey_file:PEM lib)
+Dec 02 13:43:34 paxos nginx[2845]: nginx: configuration file /etc/nginx/nginx.conf test failed
+Dec 02 13:43:34 paxos systemd[1]: nginx.service: Control process exited, code=exited, status=1/FAILURE
+Dec 02 13:43:34 paxos systemd[1]: nginx.service: Failed with result 'exit-code'.
+Dec 02 13:43:34 paxos systemd[1]: Failed to start A high performance web server and a reverse proxy server.

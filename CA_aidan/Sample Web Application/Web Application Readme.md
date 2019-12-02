@@ -26,11 +26,46 @@ server {
 }
 ```
 
-If you want to use a `.cert` file, then use that file for both `ssl_certificate` and `ssl_certificate_key`
+Remember that the `ssl_certificate_key` is the server's **private** key -- it will need to know where it is for the SSL Connection.
 
 You can visit the website by typing `localhost` into your browser. To try the TLS version, go to `https://localhost`. It won't work now, because we haven't configured the certificates.
 
 
+
+#### Adding The Certificates
+
+Point `ssl_certificate` and `ssl_certificate_key` configuration options to the certificate *bundle*.
+
+The bundle can be constructed like this:
+
+```bash
+cat end_certificate.crt intermediate_crt.crt root_crt.crt > end_certificate.chained.crt
+```
+
+So your final config will look like:
+
+```
+server {
+	...
+	listen 443 ssl default_server;
+	listen [::]:443 ssl_default_server;
+	
+	ssl_certificate /path/to/end_certificate.chained.crt;
+	ssl_certificate_key /path/to/end_certificate_key.key;
+}
+```
+
+
+
+You can check the chain is properly displayed by connecting using the OpenSSL `s_client` utility,
+
+```bash
+openssl s_client -connect localhost:443
+```
+
+Which will display the chain and attempt to make an SSL connection to the server. At the moment, it won't return cleanly.
+
+That's something we need to get sorted.
 
 #### Root CA
 
