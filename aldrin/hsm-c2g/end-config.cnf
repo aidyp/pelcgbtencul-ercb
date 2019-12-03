@@ -1,23 +1,7 @@
-openssl_conf = openssl_init
-
-[openssl_init]
-engines = engine_section
-
-[engine_section]
-pkcs11 = pkcs11_section
-
-[pkcs11_section]
-engine_id = pkcs11
-#Dynamic path not needed because pkcs11 engine is already installed to openssl directory
-#dynamic_path = /path/to/engine_pkcs11.so
-MODULE_PATH = /usr/local/lib/softhsm/libsofthsm2.so
-init = 0
-
 [ ca ]
 default_ca		= CA_default
 
 [ CA_default ]
-
 
 [ req ]
 # comment out the next line to protect the private key with a passphrase
@@ -25,7 +9,7 @@ default_ca		= CA_default
 # the default key length is secure and quite fast - do not change it
 default_bits                    = 2048
 default_md                      = sha256
-x509_extensions                 = cert
+x509_extensions                 = end_crt
 distinguished_name              = req_distinguished_name
 req_extensions			= req_extensions
 
@@ -40,19 +24,13 @@ L=IPSWICH
 ST=SUFFOLK
 O=BT
 OU=CRYP
-CN=TEST
+CN=end
 
-[ cert ]
-basicConstraints=CA:TRUE
+
+[ end_crt ]
+basicConstraints=CA:FALSE
 keyUsage = nonRepudiation,digitalSignature,keyEncipherment
 extendedKeyUsage = serverAuth
 subjectKeyIdentifier=hash
 authorityKeyIdentifier=keyid,issuer
-
-[ end ]
-basicConstraints=CA:FALSE
-#keyUsage = nonRepudiation,digitalSignature,keyEncipherment
-extendedKeyUsage = serverAuth
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid,issue
 

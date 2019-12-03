@@ -1,0 +1,102 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            55:75:a2:0f:cc:be:58:c3:aa:59:6e:17:bd:7b:bc:03:df:b8:9c:b4
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=GB, ST=Essex, L=Ipswich, O=BT PLC, OU=test, CN=jake test root
+        Validity
+            Not Before: Dec  3 14:01:40 2019 GMT
+            Not After : Dec  1 14:01:40 2024 GMT
+        Subject: C=GB, ST=Suffolk, L=Ipswich, O=OnlineShop, OU=groceries, CN=subCA
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                RSA Public-Key: (2048 bit)
+                Modulus:
+                    00:bb:8d:b9:f3:84:7d:dd:80:76:3a:03:1d:18:49:
+                    47:cc:b5:12:9d:c9:5a:12:2a:44:ca:08:77:65:43:
+                    5d:3a:c0:05:57:1f:4e:b9:ca:6c:fb:ce:56:10:87:
+                    58:8b:e8:f0:1c:00:13:a9:36:b6:49:f8:47:54:55:
+                    a8:9c:6f:d4:a6:d5:59:c0:b4:86:18:22:56:72:2c:
+                    51:64:c1:d4:5f:8e:de:c5:d3:8c:fc:6a:d4:d6:a6:
+                    bd:f0:5d:42:1e:e4:a3:67:ad:b4:5c:ce:a6:e9:01:
+                    dc:e3:4c:e6:80:24:d2:77:83:fe:1c:cd:54:85:c9:
+                    4d:96:4c:37:68:5c:77:a4:4a:d0:75:3e:1c:a4:af:
+                    d2:12:1c:af:f7:fe:03:03:96:f8:55:76:4e:e7:63:
+                    8d:be:b7:fa:b6:1f:a9:b4:2a:1d:f4:15:fa:94:1d:
+                    dd:4c:7c:fa:26:03:da:3e:1d:e7:df:7b:87:2a:ea:
+                    14:d6:d3:94:9b:e6:fd:db:51:34:06:30:ed:6d:97:
+                    36:48:d4:81:01:58:85:9a:48:85:36:1c:8b:0e:38:
+                    91:c5:8f:0c:96:28:9f:34:be:cb:01:29:54:d3:15:
+                    32:18:ad:71:0a:3b:0b:ab:c0:7e:08:8e:1b:54:3a:
+                    53:c4:8a:b7:da:df:df:e1:b0:fd:5f:4d:80:88:bf:
+                    fd:01
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: critical
+                CA:TRUE, pathlen:0
+            X509v3 Key Usage: critical
+                Digital Signature, Certificate Sign, CRL Sign
+            X509v3 Subject Key Identifier: 
+                B8:CC:1C:78:70:80:4A:36:EA:1A:F1:6E:1F:11:42:F5:7D:2A:34:22
+            X509v3 Authority Key Identifier: 
+                keyid:27:79:09:C2:73:BE:EF:9F:34:D6:E6:F3:04:D6:AB:D1:39:C7:D1:4F
+
+    Signature Algorithm: sha256WithRSAEncryption
+         a5:08:ea:30:7a:6b:09:7d:dc:dc:e6:49:99:55:33:01:f3:1c:
+         9f:5a:5e:0e:b9:d1:7e:93:47:fa:0f:de:a9:3f:78:6e:9d:ac:
+         27:90:c2:b0:d0:bb:ca:5e:eb:86:25:e0:4e:ff:46:a5:79:6f:
+         7d:12:52:82:75:ab:40:4a:b0:53:06:86:0c:89:98:c6:f6:e3:
+         83:ef:43:56:de:4e:d6:24:94:9a:b2:d3:64:c4:26:dc:03:e8:
+         d8:f8:97:3b:ce:47:85:0b:8e:69:5e:e2:80:80:26:83:5a:57:
+         b2:71:e6:fa:42:3d:50:ea:1c:60:22:f7:1b:8f:66:f0:12:d0:
+         31:bf:7b:c6:5c:ef:d4:33:21:9d:f0:fe:ad:5a:1c:eb:ba:57:
+         fb:85:fa:49:2b:ef:cc:ca:ed:5f:35:c5:61:28:bd:58:35:1f:
+         af:ae:4f:2d:42:32:5b:0b:cc:6a:6a:48:61:62:a1:84:97:36:
+         a1:e8:3f:1d:e6:7e:c1:33:bb:d5:31:5a:f3:a7:c7:0f:a3:65:
+         35:39:b6:55:1a:e7:85:b6:82:10:0d:9f:18:93:2b:63:2f:7f:
+         3a:a2:3b:b0:2f:47:90:27:90:fe:52:be:ac:52:f4:db:68:e4:
+         2e:a5:fd:8c:e8:af:8a:aa:eb:68:c3:91:91:15:c7:2a:33:c5:
+         2a:a9:c5:42:67:27:98:25:05:9e:62:84:78:01:d7:2d:c9:2a:
+         c1:00:1a:b9:8c:62:85:c2:f1:82:8b:1a:35:7c:d7:4f:27:be:
+         a0:b0:f3:09:b3:0a:02:eb:e0:29:f7:fd:00:a3:83:b4:47:80:
+         1e:b6:26:c5:c1:4f:ab:21:7f:13:f3:52:b1:56:40:8c:e4:5c:
+         af:00:83:ca:86:73:f9:6a:3a:b3:33:3c:82:2a:07:02:4c:52:
+         be:58:c7:04:01:c7:f0:87:32:e9:9d:ce:2a:44:81:80:f1:6d:
+         5c:68:fa:8a:47:a9:2f:be:b2:1f:36:76:e8:97:ec:1a:e1:de:
+         41:b1:6d:68:5d:c0:fc:44:17:6d:29:6d:c3:6c:7d:6e:31:c5:
+         b0:05:38:e4:0f:d2:61:53:06:1f:34:33:31:b5:3a:14:f3:53:
+         e4:c6:a5:ba:98:96:6e:40:38:ea:ed:48:80:e5:1d:78:5d:38:
+         b7:fa:a0:06:b4:d4:ee:41:2c:c8:8b:a2:88:87:0b:6f:97:06:
+         5a:68:60:a6:ce:bc:03:c0:09:34:4e:8e:78:ba:4d:a2:d8:ce:
+         79:f6:28:5e:a0:03:7e:d7:0d:83:50:78:a6:9b:19:1f:bc:46:
+         bc:c9:b7:39:4a:0d:c7:1a:4f:39:d2:9b:e6:7f:22:fb:b0:6b:
+         b0:99:82:53:96:de:88:8e
+-----BEGIN CERTIFICATE-----
+MIIExjCCAq6gAwIBAgIUVXWiD8y+WMOqWW4XvXu8A9+4nLQwDQYJKoZIhvcNAQEL
+BQAwaDELMAkGA1UEBhMCR0IxDjAMBgNVBAgMBUVzc2V4MRAwDgYDVQQHDAdJcHN3
+aWNoMQ8wDQYDVQQKDAZCVCBQTEMxDTALBgNVBAsMBHRlc3QxFzAVBgNVBAMMDmph
+a2UgdGVzdCByb290MB4XDTE5MTIwMzE0MDE0MFoXDTI0MTIwMTE0MDE0MFowajEL
+MAkGA1UEBhMCR0IxEDAOBgNVBAgMB1N1ZmZvbGsxEDAOBgNVBAcMB0lwc3dpY2gx
+EzARBgNVBAoMCk9ubGluZVNob3AxEjAQBgNVBAsMCWdyb2NlcmllczEOMAwGA1UE
+AwwFc3ViQ0EwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC7jbnzhH3d
+gHY6Ax0YSUfMtRKdyVoSKkTKCHdlQ106wAVXH065ymz7zlYQh1iL6PAcABOpNrZJ
++EdUVaicb9Sm1VnAtIYYIlZyLFFkwdRfjt7F04z8atTWpr3wXUIe5KNnrbRczqbp
+AdzjTOaAJNJ3g/4czVSFyU2WTDdoXHekStB1Phykr9ISHK/3/gMDlvhVdk7nY42+
+t/q2H6m0Kh30FfqUHd1MfPomA9o+Heffe4cq6hTW05Sb5v3bUTQGMO1tlzZI1IEB
+WIWaSIU2HIsOOJHFjwyWKJ80vssBKVTTFTIYrXEKOwurwH4IjhtUOlPEirfa39/h
+sP1fTYCIv/0BAgMBAAGjZjBkMBIGA1UdEwEB/wQIMAYBAf8CAQAwDgYDVR0PAQH/
+BAQDAgGGMB0GA1UdDgQWBBS4zBx4cIBKNuoa8W4fEUL1fSo0IjAfBgNVHSMEGDAW
+gBQneQnCc77vnzTW5vME1qvROcfRTzANBgkqhkiG9w0BAQsFAAOCAgEApQjqMHpr
+CX3c3OZJmVUzAfMcn1peDrnRfpNH+g/eqT94bp2sJ5DCsNC7yl7rhiXgTv9GpXlv
+fRJSgnWrQEqwUwaGDImYxvbjg+9DVt5O1iSUmrLTZMQm3APo2PiXO85HhQuOaV7i
+gIAmg1pXsnHm+kI9UOocYCL3G49m8BLQMb97xlzv1DMhnfD+rVoc67pX+4X6SSvv
+zMrtXzXFYSi9WDUfr65PLUIyWwvMampIYWKhhJc2oeg/HeZ+wTO71TFa86fHD6Nl
+NTm2VRrnhbaCEA2fGJMrYy9/OqI7sC9HkCeQ/lK+rFL022jkLqX9jOiviqrraMOR
+kRXHKjPFKqnFQmcnmCUFnmKEeAHXLckqwQAauYxihcLxgosaNXzXTye+oLDzCbMK
+AuvgKff9AKODtEeAHrYmxcFPqyF/E/NSsVZAjORcrwCDyoZz+Wo6szM8gioHAkxS
+vljHBAHH8Icy6Z3OKkSBgPFtXGj6ikepL76yHzZ26JfsGuHeQbFtaF3A/EQXbSlt
+w2x9bjHFsAU45A/SYVMGHzQzMbU6FPNT5MalupiWbkA46u1IgOUdeF04t/qgBrTU
+7kEsyIuiiIcLb5cGWmhgps68A8AJNE6OeLpNotjOefYoXqADftcNg1B4ppsZH7xG
+vMm3OUoNxxpPOdKb5n8i+7BrsJmCU5beiI4=
+-----END CERTIFICATE-----
