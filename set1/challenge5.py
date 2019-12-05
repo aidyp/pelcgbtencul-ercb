@@ -38,7 +38,26 @@ def sample():
 	ciphertext = encrypt(msg, key)
 	
 	return bytes(ciphertext).encode("hex")
+	
+def menu():
+	print("****************")
+	print("XOR keystream v1")
+	filename = raw_input("Filename of the input file: ")
+	key      = raw_input("Enter the key: ")
+	
+	#Read in the file
+	with open(filename, 'r') as fd:
+		msg = fd.read()
+	
+	#Encoding
+	msg = msg.decode("base64")
+	
+	ciphertext = encrypt(msg, key)
+	fd.close()
+	
+	with open(("XORD_" + filename), 'w') as fd:
+		fd.write(ciphertext)
+	fd.close()
 
-test = sample()
-print(test)
+main = menu()
 	
