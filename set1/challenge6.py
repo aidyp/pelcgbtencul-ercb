@@ -3,12 +3,9 @@
 
 #Hamming distance of two strings
 
-def hamming(string1, string2):
+def hamming(bytes1, bytes2):
 	#Hamming distance is the number of differing bits.
 	#XOR and count the bits.
-	
-	bytes1 = bytearray(string1)
-	bytes2 = bytearray(string2)
 	hamming = 0
 	
 	#Return if they're not the same length
@@ -32,13 +29,12 @@ def read_file_return_string():
 	with open(filename) as fd:
 		base64 = fd.read()
 	
-	return base64.decode("base64")
+	return bytearray(base64.decode("base64"))
 
 #KEYSIZE is the guessed length of the key
 #For each KEYSIZE, take the first KEYSIZE worth of bytes and the second, and find the edit distance between them
 
 def guess_keysize(target_string, guess):
-	
 	
 	#Want to guess a keysize. Start with a fixed amount 
 	keysize_guess = guess
@@ -46,7 +42,7 @@ def guess_keysize(target_string, guess):
 	#Take the first KEYSIZE bytes and the second KEYSIZE bytes, get hamming
 	left = target_string[0:(keysize_guess)]
 	right = target_string[keysize_guess:(2*keysize_guess)]
-	dist = hamming(left, right) / float(keysize_guess)
+	dist = (hamming(left, right)) / float(keysize_guess)
 	return dist
 	
 def find_key_length(target_string):
@@ -62,9 +58,7 @@ def find_key_length(target_string):
 	sorted_guesses = sorted(key_hamming_tuples, key=lambda x: x[1])
 	return sorted_guesses
 	
-def split_string_by_block(target_string, block_length):
-	#Work in bytes
-	target = bytearray(target_string)
+def split_string_by_block(target, block_length):
 	blocks = []
 	i = 0
 	while i < len(target):
@@ -107,21 +101,23 @@ def score(guess):
 	#Naive mechanism, but works for now. Just give guess a point if it has
 	#an english character
 	
-	target = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	target = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\'\"1234567890"
 	
 	#guess comes in as a bytearray
 	score = 0
-	for char in guess:
-		if chr(char) in target:
-			score += 1
-	
+	for byte in guess:
+		if chr(byte) in target:
+			score += 1			
+		else:
+			#Idea is to try and punish bad plaintexts
+			score = score - 1
 	return score
 	
 
 def solve_block(transposed_block):
 	#Get in a block
 	
-	alphabet="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'!()1234567890"
+	alphabet="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\'\"1234567890"
 	options = []
 	#Try each character against the block
 	for char in alphabet:
@@ -138,27 +134,4 @@ def solve_block(transposed_block):
 	candidates = [(guess[0], guess[1], guess[2]) for guess in sorted_guesses if guess[1] == high_score]
 	return(candidates)
 
-def sample():
-	target_string = read_file_return_string()
-	key_len_list = find_key_length(target_string)
-	print(key_len_list[0:3])
-	target_by_block = split_string_by_block(target_string, 5)
-	transposed = transpose_blocks(target_by_block)
-	#We can assume the block has been encrypted with one of the letters, so let's go have a look at one
-	block = transposed[0]
-	candidates = solve_block(block)
-	print(len(candidates))
-	for candidate in candidates:
-		try:
-			print("********")
-			print(candidate[0])
-			print(candidate[1])
-			print(candidate[2])
-			print("********")
-			print("\n")
-		except:
-			print("Couldn't print this one boss")
-	
-test = sample()
-		
-	
+
