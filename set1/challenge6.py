@@ -1,36 +1,6 @@
 #Challenge 6 -- the "qualifying" set
 
 
-#Hamming distance of two strings
-
-def hamming(bytes1, bytes2):
-	#Hamming distance is the number of differing bits.
-	#XOR and count the bits.
-	hamming = 0
-	
-	#Return if they're not the same length
-	if len(bytes1) != len(bytes2):
-		print("These strings are not the same length!")
-		return -1
-		
-	for i in range(0, len(bytes1)):
-		#XOR the two byte values
-		xor = bytes1[i] ^ bytes2[i]
-		
-		#Count the number of ones
-		binary = bin(xor)[2:]
-		ones = binary.count('1')
-		hamming += ones
-	
-	return hamming
-
-def read_file_return_string():
-	filename = 'challenge6.txt'
-	with open(filename) as fd:
-		base64 = fd.read()
-	
-	return bytearray(base64.decode("base64"))
-
 #KEYSIZE is the guessed length of the key
 #For each KEYSIZE, take the first KEYSIZE worth of bytes and the second, and find the edit distance between them
 
@@ -90,10 +60,6 @@ def transpose_blocks(target_by_block):
 		transposed.append(bytearray(new_block))
 	return transposed
 
-def xor(buf_a, buf_b):
-	#Comes in as two byte arrays
-	xor = [a ^ b for (a,b) in zip(buf_a, buf_b)]
-	return bytearray(xor)
 
 def score(guess):
 	#We want to score a guess. What's the best way to do it?
