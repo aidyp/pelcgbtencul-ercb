@@ -1,3 +1,10 @@
+# Crypto Functions #
+
+"""
+This file contains low level cryptographic functions
+"""
+
+
 
 # xor(buf_a, buf_b)
 # IN : two equal length byte arrays
