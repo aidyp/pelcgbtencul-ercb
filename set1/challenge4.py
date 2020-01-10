@@ -7,7 +7,7 @@ import functions.analysisfunctions as af
 def explore_xor_char(entry):
 	# Takes in a single bytearray, and returns an ordered list of the scores #
 	
-	alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+	alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY\'\",.:;"
 	scores = []	
 	
 	for char in alphabet:

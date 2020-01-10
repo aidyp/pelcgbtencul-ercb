@@ -1,19 +1,35 @@
 #Challenge 6 -- the "qualifying" set
 
+import functions.analysisfunctions as af
+import functions.cryptofunctions as cf
+import functions.iofunctions as io
+import challenge4 as c4
+from itertools import izip_longest
 
-#KEYSIZE is the guessed length of the key
-#For each KEYSIZE, take the first KEYSIZE worth of bytes and the second, and find the edit distance between them
 
-def guess_keysize(target_string, guess):
+# Notes #
+
+# Pretty sure keysize is 5, now just have to find the key properly #
+
+
+def hamming_keysize(target_string, guess):
+	# Function returns the hamming distance between the target string and the guessed key length#
 	
-	#Want to guess a keysize. Start with a fixed amount 
-	keysize_guess = guess
+	#Split the string by keysize
+	left_1 = target_string[0:guess]
+	right_1 = target_string[guess:(guess*2)]
+	left_2 = target_string[(guess*2):(guess*3)]
+	right_2 = target_string[(guess*3):(guess*4)]
 	
-	#Take the first KEYSIZE bytes and the second KEYSIZE bytes, get hamming
-	left = target_string[0:(keysize_guess)]
-	right = target_string[keysize_guess:(2*keysize_guess)]
-	dist = (hamming(left, right)) / float(keysize_guess)
-	return dist
+	edit_1 = cf.hamming(left_1, right_1)
+	edit_2 = cf.hamming(left_2, right_2)
+	
+	return (edit_1 + edit_2 / float(2))
+
+def read_challenge():
+	challenge = io.read_file('input/challenge6.txt')
+	return io.string_to_bytes(challenge, 'base64')
+	
 	
 def find_key_length(target_string):
 	
@@ -21,7 +37,7 @@ def find_key_length(target_string):
 	key_hamming_tuples = []
 	for i in range(2, 41):
 		guess = i
-		distance = guess_keysize(target_string, i)
+		distance = hamming_keysize(target_string, i)
 		key_hamming_tuples.append((guess, distance))
 	
 	#Return a sorted version
@@ -42,62 +58,46 @@ def split_string_by_block(target, block_length):
 	return blocks
 
 def transpose_blocks(target_by_block):
-	target = target_by_block
-	#Get in a list of blocks of a fixed length
-	length = len(target[0])
 	
-	transposed = []
-	#take the first byte of each block basically
-	for i in range(0, length):
-		new_block = []
-		for block in target:
-			try:
-				new_block.append(block[i])
-			except IndexError:
-				#Do nothing, this fails when accessing the last block
-				pass
-		
-		transposed.append(bytearray(new_block))
+	# Re writing transposition to double check it's being done correctly #
+	transposed = [bytearray(t) for t in izip_longest(*target_by_block, fillvalue=0)]
+	
+	
 	return transposed
 
 
-def score(guess):
-	#We want to score a guess. What's the best way to do it?
-	
-	#Naive mechanism, but works for now. Just give guess a point if it has
-	#an english character
-	
-	target = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\'\"1234567890"
-	
-	#guess comes in as a bytearray
-	score = 0
-	for byte in guess:
-		if chr(byte) in target:
-			score += 1			
-		else:
-			#Idea is to try and punish bad plaintexts
-			score = score - 1
-	return score
-	
+# Need to work on this #
 
 def solve_block(transposed_block):
-	#Get in a block
+	# Solve Block is an extension of Challenge 4, and will follow the same logic #
 	
-	alphabet="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\'\"1234567890"
-	options = []
+	alphabet="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\'\"0123456789"
+	scores = []
 	#Try each character against the block
 	for char in alphabet:
-		#generate the keystream
-		char_stream = bytearray([char]*len(transposed_block))
 		
-		guess = xor(transposed_block, char_stream)
-		guess_score = score(guess)
-		options.append((guess, guess_score, char))
+		# xor the character key with the alphabet #		
+		guess = cf.xor_encrypt(transposed_block, bytearray(char))
+		
+		# Record the score #
+		score = af.measure_of_english(guess)
+		scores.append((char, score))
+		
 	
-	sorted_guesses = sorted(options, key=lambda x: x[1], reverse=True)
-	high_score = sorted_guesses[0][1]
-	
-	candidates = [(guess[0], guess[1], guess[2]) for guess in sorted_guesses if guess[1] == high_score]
-	return(candidates)
+	sorted_guesses = sorted(scores, key=lambda x: x[1], reverse=True)
+	return sorted_guesses
 
+
+# Dummy function for testing little things as needed #
+def testing():
+	challenge = read_challenge()
+	blocks = split_string_by_block(challenge, 5)
+	t_blocks = transpose_blocks(blocks)
+	
+	solutions = [0]*len(t_blocks)
+	for i in range(0, len(solutions)):
+		solutions[i] = solve_block(t_blocks[i])
+	
+	return solutions
+	
 

@@ -16,7 +16,7 @@ def xor(buf_a, buf_b):
 
 # hamming(bytes1, bytes2)
 # IN : two equal length byte arrays
-# OUT: the hamming distance between the two input byte arrays
+# OUT: the normalised hamming distance between the two input byte arrays
 # ERR: -1 if the byte arrays are not of equal length
 def hamming(bytes1, bytes2):
 	hamming = 0
@@ -34,7 +34,7 @@ def hamming(bytes1, bytes2):
 		ones = binary.count('1')
 		hamming += ones
 	
-	return hamming
+	return (hamming / float(len(bytes1)))
 
 # xor_encrypt(message, key)
 # IN : message, key as two bytearrays
