@@ -21,7 +21,7 @@ def xor(buf_a, buf_b):
 def hamming(bytes1, bytes2):
 	hamming = 0
 	
-	#Return if they're not the same length
+	#Special case if they're not the same length
 	if len(bytes1) != len(bytes2):
 		return -1
 		

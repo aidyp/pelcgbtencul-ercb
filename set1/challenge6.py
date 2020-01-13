@@ -12,19 +12,30 @@ from itertools import izip_longest
 # Pretty sure keysize is 5, now just have to find the key properly #
 
 
-def hamming_keysize(target_string, guess):
-	# Function returns the hamming distance between the target string and the guessed key length#
+def hamming_keysize(target_string, keysize):
+	# Function returns the hamming distance between the target string and the guessed key length #
 	
-	#Split the string by keysize
-	left_1 = target_string[0:guess]
-	right_1 = target_string[guess:(guess*2)]
-	left_2 = target_string[(guess*2):(guess*3)]
-	right_2 = target_string[(guess*3):(guess*4)]
+	# Seperate the string into blocks of keysize #
+	blocks = [target_string[i:i+keysize] for i in range(0, len(target_string), keysize)]
 	
-	edit_1 = cf.hamming(left_1, right_1)
-	edit_2 = cf.hamming(left_2, right_2)
-	
-	return (edit_1 + edit_2 / float(2))
+	index = 0
+	distances = []
+	while True:
+		try:
+			# Take the first two chunks and compute the normalised edit distance #
+			left = blocks[0]
+			right = blocks[1]
+			distance = cf.hamming(left, right)
+			if distance == -1:
+				raise Exception()
+			distances.append(distance)
+			
+			
+			del blocks[0]
+			del blocks[1]
+		except Exception as e:
+			return sum(distances)/len(distances)
+			
 
 def read_challenge():
 	challenge = io.read_file('input/challenge6.txt')
@@ -71,7 +82,7 @@ def transpose_blocks(target_by_block):
 def solve_block(transposed_block):
 	# Solve Block is an extension of Challenge 4, and will follow the same logic #
 	
-	alphabet="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\'\"0123456789"
+	alphabet="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\'\" :;"
 	scores = []
 	#Try each character against the block
 	for char in alphabet:
@@ -91,7 +102,7 @@ def solve_block(transposed_block):
 # Dummy function for testing little things as needed #
 def testing():
 	challenge = read_challenge()
-	blocks = split_string_by_block(challenge, 5)
+	blocks = split_string_by_block(challenge, 29)
 	t_blocks = transpose_blocks(blocks)
 	
 	solutions = [0]*len(t_blocks)
