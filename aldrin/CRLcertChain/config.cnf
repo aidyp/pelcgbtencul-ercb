@@ -2,25 +2,25 @@
 default_ca = ca_default
 
 [ ca_default ]
-dir			= ./
-new_certs_dir		= ./
+dir			= /home/leslielamport/projects/openssl-pkcs11/aldrin/CRLcertChain/
+new_certs_dir		= /home/leslielamport/projects/openssl-pkcs11/aldrin/CRLcertChain/
 database		= ./index.txt # make one
 default_md		= default
 email_in_dn		= .
 policy			= policies
-rand_serial		= ./
-serial			= ./
+rand_serial		= /home/leslielamport/projects/openssl-pkcs11/aldrin/CRLcertChain/
+serial			= /home/leslielamport/projects/openssl-pkcs11/aldrin/CRLcertChain/
 crlDistributionPoints	= @crl_section
-private_key		= ./root.key # name of root key 
-certificate		= ./root.cert # name of root cert
+private_key		= /home/leslielamport/projects/openssl-pkcs11/aldrin/CRLcertChain/root.key # name of root key 
+certificate		= /home/leslielamport/projects/openssl-pkcs11/aldrin/CRLcertChain/root.cert # name of root cert
 default_crl_days	= 90	
 
 [ req ]
 distinguished_name	= req_dn
 x509_extensions		= certificates
 req_extensions		= csr
-string_mask = utf8only
-utf8 = yes
+# string_mask = utf8only
+# utf8 = yes
 
 [ req_dn ]
 countryName = Country Name (2 letter code)
@@ -51,10 +51,8 @@ CRLissuer	= policies
 basicConstraints=CA:TRUE
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid,issuer
 
 [ csr ]
 basicConstraints=CA:TRUE
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-extendedKeyUsage = serverAuth
 

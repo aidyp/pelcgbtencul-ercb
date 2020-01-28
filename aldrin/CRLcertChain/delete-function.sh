@@ -1,1 +1,1 @@
-rm *.key *.csr *.srl *.cert *.crt 
+rm *.key *.csr *.srl *.cert *.crt *.pem 
