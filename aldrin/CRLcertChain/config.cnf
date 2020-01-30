@@ -1,26 +1,28 @@
 [ ca ]
-default_ca = ca_default
+default_ca			= ca_default
 
 [ ca_default ]
-dir			= /home/leslielamport/projects/openssl-pkcs11/aldrin/CRLcertChain/
-new_certs_dir		= /home/leslielamport/projects/openssl-pkcs11/aldrin/CRLcertChain/
-database		= ./index.txt # make one
-default_md		= default
-email_in_dn		= .
-policy			= policies
-rand_serial		= /home/leslielamport/projects/openssl-pkcs11/aldrin/CRLcertChain/
-serial			= /home/leslielamport/projects/openssl-pkcs11/aldrin/CRLcertChain/
-crlDistributionPoints	= @crl_section
-private_key		= /home/leslielamport/projects/openssl-pkcs11/aldrin/CRLcertChain/root.key # name of root key 
-certificate		= /home/leslielamport/projects/openssl-pkcs11/aldrin/CRLcertChain/root.cert # name of root cert
-default_crl_days	= 90	
+dir				= ./
+new_certs_dir			= ./
+database			= ./index.txt
+default_md			= default
+email_in_dn			= .
+policy				= policies
+rand_serial			= .
+serial				= .
+crlDistributionPoints		= @crl_section
+private_key			= ./inter.key 
+certificate			= ./inter.pem
+default_crl_days		= 30	
 
 [ req ]
-distinguished_name	= req_dn
-x509_extensions		= certificates
-req_extensions		= csr
-# string_mask = utf8only
-# utf8 = yes
+distinguished_name		= req_dn
+x509_extensions			= cert
+req_extensions			= csr_extensions
+default_md			= sha256
+default_bits			= 2048
+string_mask			= utf8only
+utf8 				= yes
 
 [ req_dn ]
 countryName = Country Name (2 letter code)
@@ -44,15 +46,30 @@ organizationalUnitName_default  = Team1
 0.commonName_default            = local
 
 [ crl_section ]
-reasons		= keyCompromise, CACompromise
-CRLissuer	= policies
+reasons				= keyCompromise,CACompromise
+CRLissuer			= policies
 
-[ certificates ]
-basicConstraints=CA:TRUE
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-subjectKeyIdentifier=hash
+[ policies ]
+countryName			= optional
+stateOrProvinceName		= optional
+localityName			= optional
+organizationName		= optional
+organizationalUnitName		= optional
+commonName			= optional
+emailAddress			= optional 
 
-[ csr ]
-basicConstraints=CA:TRUE
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+[ cert ]
+basicConstraints		= CA:TRUE
+keyUsage			= nonRepudiation,digitalSignature,keyEncipherment
+subjectKeyIdentifier		= hash
+authorityKeyIdentifier		= keyid,issuer
 
+[ csr_extensions ]
+basicConstraints		= CA:TRUE
+keyUsage			= nonRepudiation,digitalSignature,keyEncipherment
+
+[ end ]
+basicConstraints		= CA:FALSE
+keyUsage			= nonRepudiation,digitalSignature,keyEncipherment
+subjectKeyIdentifier		= hash
+authorityKeyIdentifier		= keyid,issuer
