@@ -1,6 +1,0 @@
-
-
-softhsm="/usr/local/lib/softhsm/libsofthsm2.so"
-
-sudo pkcs11-tool --module $softhsm --login -p 12345 --keypairgen --key-type rsa:2048 --label "aldrinrootkey"
-

@@ -1,0 +1,36 @@
+[ ca ]
+default_ca		= CA_default
+
+[ CA_default ]
+
+[ req ]
+# comment out the next line to protect the private key with a passphrase
+#encrypt_key                     = yes
+# the default key length is secure and quite fast - do not change it
+default_bits                    = 2048
+default_md                      = sha256
+x509_extensions                 = end_crt
+distinguished_name              = req_distinguished_name
+req_extensions			= req_extensions
+
+[ req_extensions ]
+basicConstraints=CA:TRUE
+keyUsage = nonRepudiation,digitalSignature,keyEncipherment
+extendedKeyUsage = serverAuth
+
+[ req_distinguished_name ]
+C=GB
+L=IPSWICH
+ST=SUFFOLK
+O=BT
+OU=CRYP
+CN=end
+
+
+[ end_crt ]
+basicConstraints=CA:FALSE
+keyUsage = nonRepudiation,digitalSignature,keyEncipherment
+extendedKeyUsage = serverAuth
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+
