@@ -2,7 +2,7 @@
 
 ### Variables
 
-Let module=/usr/local/lib/softhsm/libsofthsm2.so
+Let `module=/usr/local/lib/softhsm/libsofthsm2.so`
 
 ### Commands
 
