@@ -34,6 +34,9 @@ def copy_to_state_array(input_byte_array):
 	
 	return state_array
 
+def to_matrix(byte_array):
+	return [list(byte_array[i:i+4]) for i in range(0, len(byte_array), 4)]
+
 def add_bytes(byte1, byte2):
 	xor = [a ^ b for (a,b) in zip(byte1, byte2)]
 	return bytearray(xor)
@@ -61,8 +64,39 @@ class AES:
 		self.rounds = AES.key_rounds[len(ukey)]
 	
 	def _expand_key(self, ukey):
+		"""
+		AES key expansion
+		Mostly done, still needs some more work
+		Maybe restructure to reflect the AES specs
+		"""
 		
+		# Initial word list is just the key #
+		key_matrix = to_matrix(ukey)
+		nk = len(words)
 		
+		while (len(key_matrix) < (4 * (self.rounds + 1))):
+			# Copies the previous word #
+			temp = list(key_matrix[-1])
+		
+			if (len(key_matrix) % nk == 0):
+				# Circular shift of temp #
+				temp.append(temp.pop(0))
+				
+				# S-Box #
+				temp = [s_box[byte] for byte in temp]
+				
+				# XOR with r-con[i / nk]. Only have to do first byte, all other for r_con are 0
+				word[0] ^= r_con[len(key_matrix) / nk]
+				
+			elif len(ukey) == 32 and len(key_matrix) % nk == 4:
+				# 256 bit key mode #
+				temp = [s_box[byte] for byte in temp]
+				
+			temp = add_bytes(temp, key_columns[-nk])
+			key_matrix.append(temp)
+		
+		# Have to figure out how to return the key words #
+		# Set of 4x4 byte matrices #		
 	def encrypt(self, plaintext):
 		"""
 		Encryption goes like this from the AES spec
