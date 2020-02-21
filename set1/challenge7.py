@@ -75,6 +75,13 @@ def xtime(byte):
 	else:
 		return (b << 1)
 
+def mix_single_column(state):
+    
+
+def mix_columns(state):
+    for i in range(0, 4):
+        mix_single_column(state[i])
+
 
 # Recall python treats lists as pointers, similar to C, so no need to return anything #
 def add_round_key(state, key_matrix):
