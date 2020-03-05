@@ -75,12 +75,25 @@ def xtime(byte):
 	else:
 		return (b << 1)
 
-def mix_single_column(state):
-    
+def mix_single_column(col):
+    """
+    Equation 4.12 from AES specification
+    """
+    a = [x for x in col]
+    col[0] = a[1] ^ a[2] ^ a[3] ^ xtime(a[0] ^ a[1])
+    col[1] = a[0] ^ a[2] ^ a[3] ^ xtime(a[1] ^ a[2])
+    col[2] = a[0] ^ a[1] ^ a[3] ^ xtime(a[2] ^ a[3])
+    col[3] = a[0] ^ a[1] ^ a[2] ^ xtime(a[0] ^ a[3])
 
 def mix_columns(state):
     for i in range(0, 4):
         mix_single_column(state[i])
+
+def inv_mix_columns(state):
+    """
+    Inverts the MixColumns stage of AES
+    """
+    # Not totally sure on this one, need to do some review
 
 
 # Recall python treats lists as pointers, similar to C, so no need to return anything #
