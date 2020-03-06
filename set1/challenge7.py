@@ -93,7 +93,18 @@ def inv_mix_columns(state):
     """
     Inverts the MixColumns stage of AES
     """
-    # Not totally sure on this one, need to do some review
+    # Not totally sure on this one, need to do some review #
+
+    # Lambda functions for concision #
+    times9  = lambda byte: xtime(xtime(xtime(byte))) + byte
+    times11 = lambda byte: times9(byte) + xtime(byte)
+    times13 = lambda byte: times11(byte) + xtime(byte)
+    times14 = lambda byte: times13(byte) + byte
+    a = [x for x in col]
+    col[0] = times14(a[0]) ^ times11(a[1]) ^ times13(a[2]) ^ times9(a[3])
+    col[1] = times9(a[0]) ^ times14(a[1]) ^ times11(a[2]) ^ times13(a[3])
+    col[2] = times13(a[0]) ^ times9(a[1]) ^ times14(a[2]) ^ times11(a[3])
+    col[3] = times11(a[0]) ^ times9(a[1]) ^ times9(a[2]) ^ times14(a[3])
 
 
 # Recall python treats lists as pointers, similar to C, so no need to return anything #
