@@ -202,3 +202,16 @@ class AES:
 
 		return state
 		"""
+        state = copy_to_state_array(plaintext)
+        add_round_key(state) #Not sure on this one totally
+
+        for i in range(0, self.rounds):
+            sub_bytes(state)
+            shift_rows(state)
+            mix_columns(state)
+            add_round_key(state, self._key_matrices[i])
+
+        sub_bytes(state)
+        shift_rows(state)
+        add_round_key(state) #This has a key matrix somewhere
+        # And that, in theory, completes one round of encryption!
