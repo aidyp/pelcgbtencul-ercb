@@ -1,5 +1,13 @@
 # Thank you to https://github.com/boppreh/aes/blob/master/aes.py for the guiding light #
+import functions.iofunctions as io
 
+def read_challenge():
+	lines = io.read_file_by_line('input/challenge7.txt')
+	return [io.string_to_bytes(line, 'base64') for line in lines]
+
+"""
+AES starts here
+"""
 #Some definitions
 s_box = (
     0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76,
@@ -47,7 +55,9 @@ r_con = (
 )
 
 def copy_to_state_array(input_byte_array):
-
+	'''
+	Takes a 1D (1x16) array of bytes and converts it to a 2D state array (4x4)
+	'''
 	state_array = [ [bytes(0) for _ in range(4)] for _ in range(4) ]
 
 	for r in range(4):
@@ -56,6 +66,13 @@ def copy_to_state_array(input_byte_array):
 
 	return state_array
 
+def copy_from_state_array(state):
+	'''
+	Takes a 2D state array (4x4) and unrolls it to a 1D (1x16) array of bytes
+	'''
+	return bytearray(sum(state,[]))
+	
+	
 def to_matrix(byte_array):
 	return [list(byte_array[i:i+4]) for i in range(0, len(byte_array), 4)]
 
@@ -120,6 +137,11 @@ def sub_bytes(state):
 		for j in range(0, 4):
 			s[i][j] = s_box[s[i][j]]
 
+def inv_sub_bytes(state):
+	for i in range(0, 4):
+		for j in range(0, 4):
+			s[i][j] = inverted_s_box[s[i][j]]
+
 def shift_rows(state):
 	# Bottom 3 rows of AES are shifted #
     state[0][1], state[1][1], state[2][1], state[3][1] = state[1][1], state[2][1], state[3][1], state[0][1]
@@ -156,7 +178,7 @@ class AES:
 
 		# Initial word list is just the key #
 		key_matrix = to_matrix(ukey)
-		nk = len(words)
+		nk = len(ukey) // 4
 
 		while (len(key_matrix) < (4 * (self.rounds + 1))):
 			# Copies the previous word #
@@ -170,48 +192,73 @@ class AES:
 				temp = [s_box[byte] for byte in temp]
 
 				# XOR with r-con[i / nk]. Only have to do first byte, all other for r_con are 0
-				word[0] ^= r_con[len(key_matrix) / nk]
+				temp[0] ^= r_con[len(key_matrix) / nk]
 
 			elif len(ukey) == 32 and len(key_matrix) % nk == 4:
 				# 256 bit key mode #
 				temp = [s_box[byte] for byte in temp]
 
-			temp = add_bytes(temp, key_columns[-nk])
+			temp = add_bytes(temp, key_matrix[-nk])
 			key_matrix.append(temp)
 
 		# Have to figure out how to return the key words #
 		# Round keys are 4x4 key matrices #
 		key_matrices = [key_matrix[4*i:4*(i + 1)] for i in range(len(key_matrix) // 4)] #Why //?
 	def encrypt(self, plaintext):
-		"""
-		Encryption goes like this from the AES spec
-
-		Copy to state
 		state = copy_to_state_array(plaintext)
-		Add round key
+		add_round_key(state, self._key_matrices[0]) #Not sure on this one totally
 
-		for each round:
+		for i in range(0, self.rounds):
 			sub_bytes(state)
 			shift_rows(state)
 			mix_columns(state)
-			add_round_key(state, self._key_words[i])
+			add_round_key(state, self._key_matrices[i])
 
 		sub_bytes(state)
 		shift_rows(state)
-		add_round_key(state)
-
-		return state
+		add_round_key(state) #This has a key matrix somewhere
+		# And that, in theory, completes one round of encryption!
+		
+		# Still need to work out exactly what to return
+	
+	def decrypt(self, ciphertext):
 		"""
-        state = copy_to_state_array(plaintext)
-        add_round_key(state) #Not sure on this one totally
+		Do all the inverse operations for encryption!
+		Put simply, we are working backwards.
+		"""
+		cipher_state = copy_to_state_array(ciphertext)
+		
+		add_round_key(cipher_state, self._key_matrices[-1])
+		inv_shift_rows(cipher_state)
+		inv_sub_bytes(cipher_state)
+		
+		for i  in range(self.rounds - 1, 0, -1):
+			add_round_key(cipher_state, self._key_matrices[i])
+			inv_mix_columns(cipher_state)
+			inv_shift_rows(cipher_state)
+			inv_sub_bytes(cipher_state)
+		
+		add_round_key(cipher_state, self._key_matrices[0])
+		
+		# Need to write a function to undo the state matrix
 
-        for i in range(0, self.rounds):
-            sub_bytes(state)
-            shift_rows(state)
-            mix_columns(state)
-            add_round_key(state, self._key_matrices[i])
 
-        sub_bytes(state)
-        shift_rows(state)
-        add_round_key(state) #This has a key matrix somewhere
-        # And that, in theory, completes one round of encryption!
+"""
+Challenge wrapper 
+"""
+
+
+def test_aes(cipher):
+	print(cipher.rounds)
+
+def convert_key(key_as_string):
+	return io.string_to_bytes(key_as_string)
+
+def decrypt_challenge():
+	challenge = read_challenge()
+	key = convert_key("YELLOW SUBMARINE")
+	cipher = AES(key)
+	test_aes(cipher)
+
+if __name__ == '__main__':
+	decrypt_challenge()
