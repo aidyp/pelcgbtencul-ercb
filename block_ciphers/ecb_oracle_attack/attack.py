@@ -23,13 +23,20 @@ def get_nth_block(m, n):
 	nth_block = resp.json()['ciphertext'][index:index+32]
 	return nth_block
 
-def guess_last_byte(m, known):
+def to_chr(hex_string):
+	return "".join([chr(int(x, 16)) for x in hex_string])
+
+
+
+def guess_last_byte(m, known, c):
 	'''
 	m is a n byte block
 	we want find m' such that E(m + m') == c
 	'''
-	# Get the padded block
-	c = get_nth_block(m, 0)
+	# Unpadded plaintext
+	print("Plaintext    : " + m)
+	
+	# Block we're trying to match
 	print("Target block : " + c)
 	
 	for i in range(0, 16):
@@ -53,58 +60,43 @@ def guess_last_byte(m, known):
 	
 	return -1
 
-def slide_guess():
+def slide_guess_one():
+	'''
+	This finds data about the first block 
+	'''
 	prepend = '79656c6c6f77207375626d6172696e' # 15 byte block to start with
 	flag = []
-	
-	# Loop skeleton goes here
-	
-	flag_byte = guess_last_byte(prepend, flag)
-	flag.append(flag_byte)
 
-	prepend = prepend[0:28]
-	flag_byte = guess_last_byte(prepend, flag)
-	flag.append(flag_byte)
+	
+	for i in range(0, 15):
+		target = get_nth_block(prepend, 0)
+		flag_byte = guess_last_byte(prepend, flag, target)
+		flag.append(flag_byte)
+
+		# Update the prepend
+		index = (15 - i) * 2 - 2
+
+		prepend = prepend[0:index]
 	
 	return flag
-	
-
-def naive_brute_force(message):
-	'''
-	The idea is because it's ECB, we can brute force each byte at a time, which makes it only
-	256 * 16 * 4 = 16384, 10^5
-	for brute-force complexity. 
-	'''
-	
-	prepend = message #Prepend 15 bytes, the 16th byte will be the next byte of the flag
-	answer = []
-	for i in range(0, 15):
-		print("Prepend message: " + prepend)
-		# Get the first 16 bytes of the ciphertext
-		c = ping_oracle(prepend).json()['ciphertext'][0:32]
-
-		# Identify the last byte
-		target = c[30:]
 		
-		# Guess what the 16th byte was
-		p_byte = guess(prepend, target, 30)
 
-		# Add the byte to the list
-		answer.append(p_byte)
-
-		# Slide the prepend backwards
-		slide = prepend + p_byte
-		prepend = slide[4:]
-
-	answer = [chr(int(x, 16)) for x in answer]
-	print(answer)
-	return answer	
-		
+def slide_guess_two():
+	prepend = '63727970746f7b70336e3675316e35' # first 15 bytes of the flag
 	
+	# Target block is the 2nd set of 16 bytes
+
+	# Pad for alignment
+	pad = prepend + 'ff'
+
+	c = get_nth_block(pad, 1)
+	flag_byte = guess_last_byte(prepend, [], c)
+	print(flag_byte)
 	
 	
 
-	
-	
-answer = slide_guess()
-print(answer)
+hexy = ['63', '72', '79', '70', '74', '6f', '7b', '70', '33', '6e', '36', '75', '31', '6e', '35', '5f']
+init_flag = "".join(hexy)
+print(to_chr(hexy))
+
+
