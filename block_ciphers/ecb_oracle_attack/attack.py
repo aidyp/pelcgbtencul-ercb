@@ -93,9 +93,31 @@ def slide_guess_two():
 	flag_byte = guess_last_byte(prepend, [], c)
 	print(flag_byte)
 	
+def slide_guess_three():
+	'''
+	We know the first 15 bytes of flag 1, so we can try and guess the first byte of flag 2
+	'''
+	prepend = '63727970746f7b70336e3675316e35'
+	known = []
+	
+	# Second block of ciphertext has one byte of flag2
+
+	c = get_nth_block(prepend, 1)
+
+	prep = prepend[2:] + '5f'
+	flag_byte = guess_last_byte(prep, known, c)
+	known.append(flag_byte)
+	print(flag_byte)
+	
+	for i in range(0, 14):
+		prep = prep[2:]
+		c = get_nth_block(prep, 1)
+		flag_byte = guess_last_byte(prep, known, c)
+		known.append(flag_byte)
+		print(flag_byte)
 	
 
-hexy = ['63', '72', '79', '70', '74', '6f', '7b', '70', '33', '6e', '36', '75', '31', '6e', '35', '5f']
+hexy = ['63', '72', '79', '70', '74', '6f', '7b', '70', '33', '6e', '36', '75', '31', '6e', '35', '5f', '68', '34', '37', '33', '5f', '33', '63', '62', '7d']
 init_flag = "".join(hexy)
 print(to_chr(hexy))
 
