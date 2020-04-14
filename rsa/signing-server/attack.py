@@ -5,6 +5,17 @@ host = "socket.cryptohack.org"
 port = 13374
 import codecs
 
+'''
+RSA signing is exponentiation with the private key, d
+sign(x) = x^d (N)
+
+We get the encrypted message c
+c = m^e (N)
+
+Then "sign" the message
+sign(c) = c^d = m^e^d = m^ed = m (N)          | By definition of RSA
+'''
+
 def netcat(host, port, content):
 	'''
 	Code to send/receive data from the TCP socket
