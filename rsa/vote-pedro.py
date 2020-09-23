@@ -5,20 +5,18 @@ host = 'socket.cryptohack.org'
 port = 13391
 
 '''
-Server takes a digest of my message
-Server does a 'calculated digest' which is sig^e mod N
-Server checks if digest bytes == calculated digest bytes
-
-if msg matches ('^I am Mallory.*own Cryptohack.org$'), win
-
 received signature is
 sig = digest(msg) ^ d (N)
 
-Server allows me to provide my own values of N, and (e). 
+Server allows me to provide my own values of m, N, and e
 
-
+server performs = m^e (N) with provided m, e & N
+server checks that m^e (N) = sneaky
 
 '''
+
+sneaky = '^I am Mallory.*own Cryptohack.org$'
+# This looks a bit odd, like regex odd
 
 
 def get_signature():
