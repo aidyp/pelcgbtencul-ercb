@@ -1,0 +1,9 @@
+== Weblink ==
+
+https://python-pkcs11.readthedocs.io/en/latest/applied.html#
+
+==  Notes  ==
+
+There are two parts to this documentation. One part is about PKCS#11 itself, the concepts and rules.
+
+The second is about how this library implements them. 
