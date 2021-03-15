@@ -61,6 +61,7 @@ fn main() {
     match challenge.as_str() {
         "1" => challenge_one(challenge_file),
         "2" => challenge_two(challenge_file),
+        "3" => challenge_thr(challenge_file),
         _ => println!("You haven't written code for this challenge yet!"),
     }
 }
