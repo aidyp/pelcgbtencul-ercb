@@ -5,6 +5,20 @@ use std::collections::HashMap;
 /* this crate thing is very useful! */
 extern crate hex;
 extern crate base64;
+extern crate lazy_static;
+
+
+/* Lookup Tables */
+lazy_static! {}
+    static ref ENG_FREQ_TABLE: HashMap<u8, f64> = {
+        let mut m = HashMap::new();
+        m.insert(65, 0.08167);
+        /* more inserts to go here */
+
+        m
+    };
+
+
 
 fn from_hex(hex_str: &str) -> Vec<u8> {
     let bytes = hex::decode(hex_str).expect("Decoding failed");
@@ -17,9 +31,33 @@ fn to_hex(bytes: Vec<u8>) -> String {
 }
 
 fn englishness(bytes: Vec<u8>) --> f64 {
+    
+
+    /* Build the frequency table for this set of bytes */
+    let mut frequency_table: HashMap<u8, f64> = HashMap::new();
+    for byte in bytes.iter() {
+        *frequency_table.entry(byte).or_insert(0) += 1;
+    
+    }
+    let normal: u32 = bytes.len();
+    for (_, val) in frequency_table.iter_mut() {
+        *val = *val / normal as f64;
+    } 
+    
+    
     /* sum of sqrts of products of probability */
 
-    
+    let mut coefficient: f64 = 0.0;
+    for byte in bytes.iter() {
+        match ENG_FREQ_TABLE.get(byte) {
+            Some(value) => ,// square root
+            None => (),
+        }
+    }
+
+
+
+    return coefficient
 
     
 }
