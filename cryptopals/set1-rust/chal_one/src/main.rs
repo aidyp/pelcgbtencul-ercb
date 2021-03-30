@@ -82,18 +82,15 @@ fn englishness(bytes: &[u8]) -> f64 {
     
     /* sum of sqrts of products of probability */
 
-    /* 
+
+    /* This is so ugly, need to find the more idiomatic way of doing things */
     let mut coefficient: f64 = 0.0;
     for byte in bytes.iter() {
         match ENG_FREQ_TABLE.get(byte) {
-            Some(value) => (),
+            Some(value) => coefficient = coefficient + (*value * frequency_table.get(byte).unwrap()).sqrt(),
             None => (),
         }
     }
-    */
-
-
-    let coefficient:f64 = 0.0;
     return coefficient
 
     
