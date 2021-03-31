@@ -53,7 +53,7 @@ fn from_hex(hex_str: &str) -> Vec<u8> {
     return bytes;
 }
 
-fn to_hex(bytes: Vec<u8>) -> String {
+fn to_hex(bytes: &[u8]) -> String {
     let hex_str = hex::encode(bytes);
     return hex_str;
 }
@@ -118,13 +118,56 @@ fn challenge_two(filename: &String) {
     
     let (left, right) = (from_hex(&lines[0]), from_hex(&lines[1]));
     let res = vec_byte_xor(left.as_slice(), right.as_slice());
-    println!("result: {}", to_hex(res));
+    println!("result: {}", to_hex(res.as_slice()));
 
 
 }
 
+fn guess_xor(bytes: &[u8]) -> (f64, Vec<u8>) {
 
 
+    let length = bytes.len();
+    let mut xor_vec = vec![0; length];
+    let mut bst_coef: f64 = 0.0;
+    let mut res_vec = vec![0; length];
+    for n in 0..=255 {
+        for x in 0..length {
+            xor_vec[x] = n;
+        }
+
+        let tmp_vec = vec_byte_xor(bytes, xor_vec.as_slice());
+        let tmp_coef = englishness(tmp_vec.as_slice());
+        if tmp_coef >= bst_coef {
+            bst_coef = tmp_coef;
+            res_vec = tmp_vec;
+        }
+    }
+
+    /* Print the vector alongside it's coefficient */
+    //println!("{} : {}", bst_coef, to_hex(res_vec.as_slice()));
+    return (bst_coef, res_vec)
+}
+
+
+fn challenge_four(filename: &String) {
+    let contents = fs::read_to_string(filename).expect("Something went wrong reading");
+
+    // Read every line into a hex string
+    let lines: Vec<&str> = contents.split("\n").collect();
+
+    // For each line, work out the best xor character
+    let mut bst_coef: f64 = 0.0;
+    let mut bst_vec = Vec::new();
+    for line in lines.iter() {
+        let (coef, bytes_vec) = guess_xor(from_hex(line).as_slice());
+        if coef >= bst_coef {
+            bst_coef = coef;
+            bst_vec = bytes_vec
+        }
+    }
+    println!("{}: {}", bst_coef, to_hex(bst_vec.as_slice()));
+
+}
 
 fn challenge_thr(filename: &String) {
 
@@ -156,7 +199,7 @@ fn challenge_thr(filename: &String) {
 
     }
 
-    println!("ans: {}", to_hex(res_vec))
+    println!("ans: {}", to_hex(res_vec.as_slice()))
 
 
 
@@ -185,6 +228,7 @@ fn main() {
         "1" => challenge_one(challenge_file),
         "2" => challenge_two(challenge_file),
         "3" => challenge_thr(challenge_file),
+        "4" => challenge_four(challenge_file),
         _ => println!("You haven't written code for this challenge yet!"),
     }
 }
