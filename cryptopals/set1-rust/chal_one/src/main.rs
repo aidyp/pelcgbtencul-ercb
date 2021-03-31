@@ -206,6 +206,36 @@ fn challenge_thr(filename: &String) {
 
 }
 
+fn challenge_five(filename: &String) {
+    /* Encrypt against repeating key, "ICE" */
+
+    let contents = fs::read_to_string(filename).expect("File read failed");
+    let mut key = "ICE";
+
+    /* Lazy hack */
+    let mut mulpt = 0;
+    if (contents.len() % key.len()) == 0 {
+        mulpt = contents.len() / key.len();
+    }
+    else {
+        mulpt = (contents.len() + key.len()) / key.len();
+    }
+    let rep_key = key.repeat(mulpt);
+
+
+    // We want to keep the newline character
+    let bytes = contents.as_bytes();
+    let xor_key = rep_key.as_bytes();
+
+    let res_xor = vec_byte_xor(bytes, xor_key);
+    println!("{}", to_hex(res_xor.as_slice()));
+
+
+
+
+
+}
+
 
 fn vec_byte_xor(v1: &[u8], v2: &[u8]) -> Vec<u8> {
     /* using iterators */
@@ -229,6 +259,7 @@ fn main() {
         "2" => challenge_two(challenge_file),
         "3" => challenge_thr(challenge_file),
         "4" => challenge_four(challenge_file),
+        "5" => challenge_five(challenge_file),
         _ => println!("You haven't written code for this challenge yet!"),
     }
 }
