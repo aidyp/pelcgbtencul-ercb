@@ -1,6 +1,7 @@
 use std::env;
 use std::fs;
 use std::collections::HashMap;
+use std::collections::hash_map::Entry::{Occupied, Vacant};
 
 /* this crate thing is very useful! */
 
@@ -74,23 +75,23 @@ fn englishness(bytes: &[u8]) -> f64 {
         *frequency_table.entry(*byte).or_insert(0.0) += 1.0;
     
     }
-    let normal: usize = bytes.len();
-    for (_, val) in frequency_table.iter_mut() {
-        *val = *val / normal as f64;
-    }
-    
+    let normal = bytes.len() as f64;   
     
     /* sum of sqrts of products of probability */
 
 
     /* This is so ugly, need to find the more idiomatic way of doing things */
     let mut coefficient: f64 = 0.0;
-    for byte in bytes.iter() {
-        match ENG_FREQ_TABLE.get(byte) {
-            Some(value) => coefficient = coefficient + (*value * frequency_table.get(byte).unwrap()).sqrt(),
-            None => (),
-        }
+    for byte in ENG_FREQ_TABLE.keys() {
+        let fq = match frequency_table.entry(*byte) {
+            Vacant(entry) => entry.insert(0.0),
+            Occupied(entry) => entry.into_mut(),
+        };
+        *fq /= normal;
+        let overlap = ENG_FREQ_TABLE[byte] * frequency_table[byte];
+        coefficient += overlap.sqrt();
     }
+
     return coefficient
 
     
