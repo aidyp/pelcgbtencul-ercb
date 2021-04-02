@@ -15,8 +15,8 @@ extern crate lazy_static;
 lazy_static! {
     static ref ENG_FREQ_TABLE: HashMap<u8, f64> = {
         let mut m = HashMap::new();
+        /* Lower case english frequency table */
         m.insert(97, 0.08167);
-        /* more inserts to go here */
         m.insert(98, 0.01492);
         m.insert(99, 0.02782);
         m.insert(100, 0.02782);
@@ -229,11 +229,30 @@ fn challenge_five(filename: &String) {
 
     let res_xor = vec_byte_xor(bytes, xor_key);
     println!("{}", to_hex(res_xor.as_slice()));
+}
 
+fn challenge_six() {
+    let s1 = "this is a test".as_bytes();
+    let s2 = "wokka wokka!!!".as_bytes();
 
+    let hd = hamming_distance(s1, s2);
+    println!("hamming distance: {}", hd);
+}
 
+fn bitwise_hamming_dist(left: &u8, right: &u8) -> u32 {
+    return (left ^ right).count_ones()
+}
 
+fn hamming_distance(v1: &[u8], v2: &[u8]) -> u32 {
+    let mut distance: u32 = 0;
 
+    // Iterate through bytes
+    // Can use zip here
+    for (b1, b2) in v1.iter().zip(v2){
+        distance += bitwise_hamming_dist(b1, b2);
+    }
+
+    return distance
 }
 
 
@@ -260,6 +279,7 @@ fn main() {
         "3" => challenge_thr(challenge_file),
         "4" => challenge_four(challenge_file),
         "5" => challenge_five(challenge_file),
+        "6" => challenge_six(),
         _ => println!("You haven't written code for this challenge yet!"),
     }
 }
