@@ -2,6 +2,7 @@ use std::env;
 use std::fs;
 use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied, Vacant};
+mod lib;
 
 /* this crate thing is very useful! */
 
@@ -101,10 +102,10 @@ fn challenge_one(filename: &String) {
     let contents = fs::read_to_string(filename).expect("Something went wrong!");
 
     /* get raw bytes */
-    let bytes = from_hex(&contents);
+    let bytes = lib::encoding::str_from_hex(&contents);
 
     /* convert to base64 */
-    let b64 = base64::encode(&bytes);
+    let b64 = lib::encoding::bytes_to_b64(&bytes);
 
     /* print the result */
     println!("base64: {}", b64);
@@ -210,7 +211,7 @@ fn challenge_five(filename: &String) {
     /* Encrypt against repeating key, "ICE" */
 
     let contents = fs::read_to_string(filename).expect("File read failed");
-    let mut key = "ICE";
+    let key = "ICE";
 
     /* Lazy hack */
     let mut mulpt = 0;
@@ -235,7 +236,7 @@ fn challenge_six() {
     let s1 = "this is a test".as_bytes();
     let s2 = "wokka wokka!!!".as_bytes();
 
-    let hd = hamming_distance(s1, s2);
+    let hd = lib::bitmaths::hamming_distance(s1, s2);
     println!("hamming distance: {}", hd);
 }
 
