@@ -232,7 +232,12 @@ fn challenge_five(filename: &String) {
     println!("{}", to_hex(res_xor.as_slice()));
 }
 
-fn challenge_six() {
+fn challenge_six(filename: &String) {
+
+    let raw = fs::read_to_string(filename).expect("File read failed");
+
+    // File has been b64 encoded
+    let contents = lib::encoding::b64_to_bytes(&raw);
     let s1 = "this is a test".as_bytes();
     let s2 = "wokka wokka!!!".as_bytes();
 
@@ -280,7 +285,7 @@ fn main() {
         "3" => challenge_thr(challenge_file),
         "4" => challenge_four(challenge_file),
         "5" => challenge_five(challenge_file),
-        "6" => challenge_six(),
+        "6" => challenge_six(challenge_file),
         _ => println!("You haven't written code for this challenge yet!"),
     }
 }
