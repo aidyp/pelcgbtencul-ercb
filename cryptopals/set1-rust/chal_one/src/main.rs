@@ -243,6 +243,8 @@ fn challenge_six(filename: &String) {
 
     let hd = lib::bitmaths::hamming_distance(s1, s2);
     println!("hamming distance: {}", hd);
+
+    /* For each KEYSIZE, take the first keysize worth of bytes */
 }
 
 fn bitwise_hamming_dist(left: &u8, right: &u8) -> u32 {
